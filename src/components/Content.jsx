@@ -10,13 +10,13 @@ const Content = () => {
       if(currentUser){
         setUser(JSON.parse(currentUser));
       }
-    }, [user])
+    }, [])
 
   return (
     <div className='px-35'>
     <div className='pb-10'>
         <h1 className='text-4xl font-extrabold inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-orange-400 to-green-400'>Hello, {user.given_name}!</h1>
-        <h2 className='text-3xl font-bold text-gray-300'>How can i help you today?</h2>
+        <h2 className='text-3xl font-bold text-gray-500'>How can i help you today?</h2>
     </div>
     <div className='flex justify-center space-x-2'>
         <QuestionCard question="What is the best way to learn React?" />
