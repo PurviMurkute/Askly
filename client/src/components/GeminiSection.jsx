@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Avatar } from "flowbite-react";
 import { Image, SendHorizontal } from "lucide-react";
 import Content from "./Content";
 import { useNavigate } from "react-router";
@@ -22,9 +21,9 @@ const Input = () => {
   }, [user])
   return (
     <div className="flex flex-col justify-between w-full bg-gray-800">
-      <div className="h-12 w-full flex justify-between px-5 py-2">
+      <div className="h-20 w-full flex justify-between px-5 py-2">
         <h3 className="text-2xl text-gray-400 font-semibold">Gemini</h3>
-        <Avatar img={user.picture} alt="User-profile" className="rounded-full" />
+        <img src={user.picture} alt="User-profile" className="rounded-full w-12 h-12 object-cover" />
       </div>
       <Content/>
       <div className="w-[85%] block mx-auto my-4">

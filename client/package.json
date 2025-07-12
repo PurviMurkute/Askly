@@ -7,14 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "postinstall": "flowbite-react patch"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@react-oauth/google": "^0.12.2",
     "@tailwindcss/vite": "^4.1.11",
-    "flowbite-react": "^0.11.8",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.525.0",
     "react": "^19.1.0",

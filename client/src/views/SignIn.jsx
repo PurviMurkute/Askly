@@ -1,7 +1,7 @@
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
-import startIcon from "./../assets/starticon.png";
+import startIcon from "../assets/starticon.png";
 import { Link } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
 

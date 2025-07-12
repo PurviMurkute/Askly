@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SignIn from "./SignIn";
-import img from "./../assets/homeimg.png";
+import img from "../assets/homeimg.png";
 
 const Home = () => {
   const [user, setUser] = useState(null);
