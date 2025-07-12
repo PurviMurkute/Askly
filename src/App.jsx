@@ -1,17 +1,15 @@
-import React from 'react'
-import SideBar from './components/SideBar'
-import Input from './components/Input'
+import React from "react";
+import SignIn from "./views/SignIn";
+import { Route, Routes } from "react-router";
+import Gemini from "./views/Gemini";
 
 const App = () => {
-  return (
-    <div className=''>
-      <div className='flex'>
-        <SideBar/>
-        <Input/>
-      </div>
-      
-    </div>
-  )
-}
+  return <div>
+    <Routes>
+      <Route path="/" element={<SignIn/>}></Route>
+      <Route path="/gemini" element={<Gemini/>}></Route>
+    </Routes>
+  </div>;
+};
 
-export default App
+export default App;

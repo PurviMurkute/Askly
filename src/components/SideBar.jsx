@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { googleLogout } from "@react-oauth/google";
 import {
   Menu,
   Plus,
@@ -7,6 +8,9 @@ import {
   Settings,
   Power,
 } from "lucide-react";
+import { useNavigate } from "react-router";
+import toast, { Toaster } from "react-hot-toast";
+
 
 const SideBar = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
@@ -14,8 +18,19 @@ const SideBar = () => {
     setIsSideBarOpen(!isSideBarOpen);
   };
 
+  const navigate = useNavigate();
+
+  const handleSignout = () => {
+    googleLogout();
+    localStorage.removeItem("CurrentUser");
+    toast.success("Signout successfull");
+    setTimeout(()=>{
+      navigate('/');
+    }, 2000)
+  }
+
   return (
-    <div className={`bg-gray-200 flex flex-col min-h-screen justify-between items-center p-3 ${isSideBarOpen ? 'w-44' : 'w-16'} transition-width duration-300`}>
+    <div className={`bg-gray-300 flex flex-col min-h-screen justify-between items-center p-3 ${isSideBarOpen ? 'w-44' : 'w-16'} transition-width duration-300`}>
       <div className="flex flex-col space-y-5">
         <button onClick={toggleSideBar} className="cursor-pointer mb-8"><Menu /></button>
         <button className="flex justify-center items-center p-2 bg-gray-400 text-white rounded-full hover:bg-gray-500 transition-colors duration-200">
@@ -38,11 +53,12 @@ const SideBar = () => {
           <Settings />
           {isSideBarOpen ? <span>Settings</span> : null}
         </button>
-        <button className="flex items-center space-x-2 cursor-pointer">
+        <button className="flex items-center space-x-2 cursor-pointer" onClick={handleSignout}>
           <Power />
           {isSideBarOpen ? <span>Sign Out</span> : null}
         </button>
       </div>
+      <Toaster/>
     </div>
   );
 };
