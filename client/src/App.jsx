@@ -1,5 +1,4 @@
 import React from "react";
-import SignIn from "./views/SignIn";
 import { Route, Routes } from "react-router";
 import Gemini from "./views/Gemini";
 import Home from "./views/Home";

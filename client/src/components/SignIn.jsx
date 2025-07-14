@@ -33,8 +33,9 @@ const SignIn = () => {
             Sign In Now ✨
           </h4>
           <GoogleLogin
-            theme="filled_red"
+            theme="filled_blue"
             size="large"
+            shape="rectangular"
             onSuccess={(credentialResponse) => {
               const decoded = jwtDecode(credentialResponse.credential);
               console.log("login success: ", decoded);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SignIn from "./SignIn";
+import SignIn from "./../components/SignIn";
 import img from "../assets/homeimg.png";
 
 const Home = () => {
