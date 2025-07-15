@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import { getQuerybyUser, postQuery } from './controllers/geminichat.js';
+import { deleteQuery, getQuerybyUser, postQuery } from './controllers/geminichat.js';
 dotenv.config();
 
 const app = express();
@@ -31,6 +31,7 @@ app.get('/health', async(req, res) => {
 
 app.post('/gemini', postQuery);
 app.get('/queries', getQuerybyUser);
+app.delete('/query/:id', deleteQuery);
 
 app.listen(PORT, () => {
     console.log(`Server is running on PORT ${PORT}`);

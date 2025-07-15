@@ -23,14 +23,31 @@ const Input = () => {
     } else {
       setUser(JSON.parse(currentUser));
     }
-  }, [navigate]);
+  }, []);
 
   const formatText = (rawText) => {
     if (!rawText) return "";
 
     let formatted = rawText;
-    formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<span class="font-medium">$1</span>');
-    formatted = formatted.replace(/(\d+\.\s)/g, '<br/><br/>$1');
+
+    // 1. Remove markdown headings like ### or ####
+    formatted = formatted.replace(/^#{3,6}\s*/gm, "");
+
+    // 2. Convert **bold** to <span class="font-medium">
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+    // 3. Convert `text` to <strong>
+    formatted = formatted.replace(
+      /`(.*?)`/g,
+      '<span class="font-medium">$1</span>'
+    );
+
+    // 4. Add line breaks before numbered lists (e.g., 1. )
+    formatted = formatted.replace(/(\d+\.\s)/g, "<br/><br/>$1");
+
+    // 5. Replace single asterisks (*) with line breaks
+    // (only when * is surrounded by whitespace or start/end of line)
+    formatted = formatted.replace(/(^|\s)\*(\s|$)/g, "$1<br/>$2");
 
     return formatted;
   };

@@ -73,4 +73,23 @@ const getQuerybyUser = async(req, res) => {
     }
 }
 
-export { postQuery, getQuerybyUser }
+const deleteQuery = async(req, res) => {
+    const {id} = req.params;
+
+    try{
+        await Chats.findByIdAndDelete({_id : id});
+        return res.status(200).json({
+            success: true,
+            data: null,
+            message: "query deleted successfully"
+        })
+    }catch(e){
+        return res.status(400).json({
+            success: false,
+            data: null,
+            message: e?.message
+        })
+    }
+}
+
+export { postQuery, getQuerybyUser, deleteQuery }
