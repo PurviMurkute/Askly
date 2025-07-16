@@ -21,33 +21,34 @@ const GeminiSection = () => {
 
   return (
     <div className="flex flex-col justify-between w-full bg-gray-800 inset-0 relative">
-      <div className="h-20 w-full flex justify-between px-5 py-2">
+      <div className="md:h-20 md:w-full flex justify-between px-2 md:px-5 py-2">
         <h3 className="text-2xl text-gray-400 font-semibold">Gemini</h3>
         {user?.picture && (
           <img
             src={user.picture}
             alt="User-profile"
-            className="rounded-full w-12 h-12 object-cover"
+            className="rounded-full w-9 h-9 md:w-12 md:h-12 object-cover"
           />
         )}
       </div>
 
       {!showResult ? (
-        <div className="px-35">
+        <div className="px-5 md:w-[100%] md:px-35">
           <div className="pb-10">
-            <h1 className="text-4xl font-extrabold inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-orange-400 to-green-400">
-              Hello, {user?.name}!
+            <h1 className="text-3xl md:text-4xl font-extrabold inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-orange-400 to-green-400">
+              Hello, {user?.given_name}!
             </h1>
-            <h2 className="text-3xl font-bold text-gray-500">
+            <h2 className="text-xl md:text-3xl font-bold text-gray-500">
               How can i help you today?
             </h2>
           </div>
-          <div className="flex justify-center space-x-2">
+          <div className="flex flex-col md:flex-row justify-center items-center space-x-2">
             <QuestionCard
               question="What is the best way to learn React?"
               onClick={() => {
                 handleQuestionClick("What is the best way to learn React?");
               }}
+              hidden="true"
             />
             <QuestionCard
               question="Suggest beautiful places to visit in india."
@@ -72,6 +73,7 @@ const GeminiSection = () => {
                   "List down top 5 skills that engineering students should learn in 2025."
                 );
               }}
+              hidden="true"
             />
           </div>
         </div>
@@ -105,8 +107,8 @@ const GeminiSection = () => {
         </div>
       )}
 
-      <div className="w-[80%] mx-auto my-4">
-        <div className="flex justify-between items-center bg-gray-600 py-4 px-5 rounded-full shadow-md w-full">
+      <div className="w-[90%] md:w-[80%] mx-auto my-4">
+        <div className="flex justify-between items-center bg-gray-600 py-3 md:py-4 px-3 md:px-5 rounded-full shadow-md w-full">
           <input
             type="text"
             placeholder="Ask Gemini"
@@ -114,7 +116,7 @@ const GeminiSection = () => {
             onChange={(e) => setInput(e.target.value)}
             className="w-full text-white focus:outline-none"
           />
-          <div className="flex space-x-3">
+          <div className="flex space-x-1 md:space-x-3">
             <Image color="#fff" />
             <SendHorizontal
               color="#fff"

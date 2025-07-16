@@ -62,14 +62,14 @@ const SignIn = () => {
           </div>
 
           <Link to="/gemini">
-            <button className="bg-red-500 px-5 py-2 block mx-auto my-3 font-medium text-white w-[300px] rounded-md cursor-pointer">
+            <button className="bg-red-500 px-5 py-2 block mx-auto my-2 md:my-3 font-medium text-white w-[300px] rounded-md cursor-pointer">
               Let's Start{" "}
               <img src={startIcon} alt="start-icon" className="inline w-6" />
             </button>
           </Link>
 
           <button
-            className="block mx-auto my-5 text-white font-medium cursor-pointer"
+            className="block mx-auto md:my-5 text-white font-medium cursor-pointer"
             onClick={handleSignout}
           >
             SignOut

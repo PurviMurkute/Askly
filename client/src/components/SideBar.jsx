@@ -76,8 +76,8 @@ const SideBar = () => {
 
   return (
     <div
-      className={`bg-gray-600 text-white flex flex-col min-h-screen justify-between px-3 py-1 ${
-        isSideBarOpen ? "w-[230px]" : "w-20"
+      className={`bg-gray-600 text-white flex flex-col min-h-screen justify-between px-1 md:px-3 py-1 ${
+        isSideBarOpen ? "w-[190px] md:w-[230px]" : "w-15"
       } transition-width duration-300`}
     >
       <div className="flex flex-col space-y-5">
@@ -86,11 +86,11 @@ const SideBar = () => {
         </button>
         <button className="flex justify-center items-center p-2 bg-gray-400 text-white rounded-full hover:bg-gray-500 transition-colors duration-200">
           <Plus />
-          {isSideBarOpen ? <span>New Chat</span> : null}
+          {isSideBarOpen ? <span className="text-sm md:text-md">New Chat</span> : null}
         </button>
         <div>
           {isSideBarOpen ? <h3 className="mb-3">Recents</h3> : null}
-          <div className="flex cursor-pointer h-[400px] overflow-y-scroll scrollbar-hide relative">
+          <div className="flex cursor-pointer h-[350px] md:h-[400px] overflow-y-scroll scrollbar-hide relative">
             {isSideBarOpen ? (
               <div className="text-sm w-[100%]">
                 {queriesHistory.map((item, i) => (
@@ -123,20 +123,20 @@ const SideBar = () => {
         </div>
       </div>
       <div className="flex flex-col space-y-3 mb-3">
-        <button className="flex items-center space-x-2 cursor-pointer">
-          <BadgeQuestionMark color="#fff" />
-          {isSideBarOpen ? <span>Help</span> : null}
+        <button className="flex items-center space-x-1 md:space-x-2 cursor-pointer">
+          <BadgeQuestionMark color="#fff" className="w-6 h-6" />
+          {isSideBarOpen ? <span className="text-md">Help</span> : null}
         </button>
-        <button className="flex items-center space-x-2 cursor-pointer">
-          <Settings color="#fff" />
-          {isSideBarOpen ? <span>Settings</span> : null}
+        <button className="flex items-center space-x-1 md:space-x-2 cursor-pointer">
+          <Settings color="#fff" className="w-6 h-6"/>
+          {isSideBarOpen ? <span className="text-md">Settings</span> : null}
         </button>
         <button
-          className="flex items-center space-x-2 cursor-pointer"
+          className="flex items-center space-x-1 md:space-x-2 cursor-pointer"
           onClick={handleSignout}
         >
-          <Power color="#fff" />
-          {isSideBarOpen ? <span>Sign Out</span> : null}
+          <Power color="#fff" className="w-6 h-6"/>
+          {isSideBarOpen ? <span className="text-md">Sign Out</span> : null}
         </button>
       </div>
       <Toaster />
