@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { googleLogout } from "@react-oauth/google";
 import {
   Menu,
@@ -12,14 +12,19 @@ import {
 import { useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { context } from "../context/Context";
 
 const SideBar = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
-  const [user, setUser] = useState(null);
   const [queriesHistory, setQueriesHistory] = useState([]);
   const toggleSideBar = () => {
     setIsSideBarOpen(!isSideBarOpen);
   };
+
+  const {
+      setUser,
+      handleQuestionClick,
+    } = useContext(context);
 
   const getHistory = async (user) => {
     if (!user) return;
@@ -39,10 +44,10 @@ const SideBar = () => {
       `${import.meta.env.VITE_API_KEY}/query/${_id}`
     );
 
-    if(response.data.success){
+    if (response.data.success) {
       toast.success(response.data.message);
-      setQueriesHistory(prev => prev.filter(q => q._id !== _id));
-    }else{
+      setQueriesHistory((prev) => prev.filter((q) => q._id !== _id));
+    } else {
       toast.error(response.data.message);
     }
   };
@@ -71,8 +76,8 @@ const SideBar = () => {
 
   return (
     <div
-      className={`bg-gray-600 text-white flex flex-col min-h-screen justify-between items-center p-3 ${
-        isSideBarOpen ? "w-48" : "w-20"
+      className={`bg-gray-600 text-white flex flex-col min-h-screen justify-between px-3 py-1 ${
+        isSideBarOpen ? "w-[230px]" : "w-20"
       } transition-width duration-300`}
     >
       <div className="flex flex-col space-y-5">
@@ -85,26 +90,36 @@ const SideBar = () => {
         </button>
         <div>
           {isSideBarOpen ? <h3 className="mb-3">Recents</h3> : null}
-          <p className="flex cursor-pointer h-[400px] overflow-y-scroll scrollbar-hide relative">
+          <div className="flex cursor-pointer h-[400px] overflow-y-scroll scrollbar-hide relative">
             {isSideBarOpen ? (
-              <div className="text-sm">
-                {queriesHistory.map((item, i) => {
-                  return (
-                    <div key={i} className="pb-1">
+              <div className="text-sm w-[100%]">
+                {queriesHistory.map((item, i) => (
+                  <div
+                    key={i}
+                    className="relative group hover:bg-gray-500 px-3 py-1 rounded-lg flex justify-between"
+                  >
+                    <div className="flex justify-start">
                       <span>
                         <MessageSquareMore
                           color="#f2f2f2"
                           className="w-3 me-1 inline"
                         />
                       </span>
-                      {item.query.slice(0, 10)}..{" "}
-                      <Trash2 color="#2e3133" className="inline w-[15px] absolute right-0" onClick={()=>{deleteQuery(item._id)}} />
+
+                      <span className="" onClick={()=>{handleQuestionClick(item.query)}}>
+                        {item.query.slice(0, 8)}...
+                      </span>
                     </div>
-                  );
-                })}
+                    <Trash2
+                      color="#fff"
+                      className="inline w-[15px] absolute right-1 top-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+                      onClick={() => deleteQuery(item._id)}
+                    />
+                  </div>
+                ))}
               </div>
             ) : null}
-          </p>
+          </div>
         </div>
       </div>
       <div className="flex flex-col space-y-3 mb-3">

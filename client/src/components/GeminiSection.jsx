@@ -1,99 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Image, SendHorizontal } from "lucide-react";
-import Content from "./Content";
-import { useNavigate } from "react-router";
-import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import QuestionCard from "./QuestionCard";
 import { Sparkles } from "lucide-react";
+import { context } from "../context/Context";
 
-const Input = () => {
-  const [user, setUser] = useState(null);
-  const [input, setInput] = useState("");
-  const [geminiResponse, setGeminiResponse] = useState("");
-  const [showResult, setShowResult] = useState(false);
-  const [loader, setLoader] = useState(false);
-  const [recentQuery, setRecentQuery] = useState("");
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const currentUser = localStorage.getItem("CurrentUser");
-    if (!currentUser) {
-      setTimeout(() => navigate("/"), 2000);
-    } else {
-      setUser(JSON.parse(currentUser));
-    }
-  }, []);
-
-  const formatText = (rawText) => {
-    if (!rawText) return "";
-
-    let formatted = rawText;
-
-    // 1. Remove markdown headings like ### or ####
-    formatted = formatted.replace(/^#{3,6}\s*/gm, "");
-
-    // 2. Convert **bold** to <span class="font-medium">
-    formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-
-    // 3. Convert `text` to <strong>
-    formatted = formatted.replace(
-      /`(.*?)`/g,
-      '<span class="font-medium">$1</span>'
-    );
-
-    // 4. Add line breaks before numbered lists (e.g., 1. )
-    formatted = formatted.replace(/(\d+\.\s)/g, "<br/><br/>$1");
-
-    // 5. Replace single asterisks (*) with line breaks
-    // (only when * is surrounded by whitespace or start/end of line)
-    formatted = formatted.replace(/(^|\s)\*(\s|$)/g, "$1<br/>$2");
-
-    return formatted;
-  };
-
-  const delayPara = (words, index = 0) => {
-    if (index < words.length) {
-      setTimeout(() => {
-        setGeminiResponse((prev) => prev + words[index] + " ");
-        delayPara(words, index + 1);
-      }, 50);
-    }
-  };
-
-  const generateResponse = async () => {
-    if (!user) return;
-    setLoader(true);
-    setGeminiResponse("");
-
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_KEY}/gemini`,
-        {
-          query: input,
-          userId: user.sub,
-        }
-      );
-
-      if (response.data.success) {
-        const formattedText = formatText(response.data.data);
-        const words = formattedText.split(" ");
-        delayPara(words);
-
-        toast.success(response.data.message);
-        setInput("");
-      } else {
-        toast.error(response.data.message);
-      }
-    } catch (e) {
-      toast.error(e?.message);
-    } finally {
-      setLoader(false);
-    }
-  };
+const GeminiSection = () => {
+  const {
+    user,
+    input,
+    setInput,
+    geminiResponse,
+    showResult,
+    setShowResult,
+    loader,
+    recentQuery,
+    setRecentQuery,
+    handleQuestionClick,
+    generateResponse
+  } = useContext(context);
 
   return (
-    <div className="flex flex-col justify-between w-full bg-gray-800">
+    <div className="flex flex-col justify-between w-full bg-gray-800 inset-0 relative">
       <div className="h-20 w-full flex justify-between px-5 py-2">
         <h3 className="text-2xl text-gray-400 font-semibold">Gemini</h3>
         {user?.picture && (
@@ -106,7 +33,48 @@ const Input = () => {
       </div>
 
       {!showResult ? (
-        <Content />
+        <div className="px-35">
+          <div className="pb-10">
+            <h1 className="text-4xl font-extrabold inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-orange-400 to-green-400">
+              Hello, {user?.name}!
+            </h1>
+            <h2 className="text-3xl font-bold text-gray-500">
+              How can i help you today?
+            </h2>
+          </div>
+          <div className="flex justify-center space-x-2">
+            <QuestionCard
+              question="What is the best way to learn React?"
+              onClick={() => {
+                handleQuestionClick("What is the best way to learn React?");
+              }}
+            />
+            <QuestionCard
+              question="Suggest beautiful places to visit in india."
+              onClick={() => {
+                handleQuestionClick(
+                  "Suggest beautiful places to visit in india."
+                );
+              }}
+            />
+            <QuestionCard
+              question="What are the latest trends in web development?"
+              onClick={() => {
+                handleQuestionClick(
+                  "What are the latest trends in web development?"
+                );
+              }}
+            />
+            <QuestionCard
+              question="List down top 5 skills that engineering students should learn in 2025."
+              onClick={() => {
+                handleQuestionClick(
+                  "List down top 5 skills that engineering students should learn in 2025."
+                );
+              }}
+            />
+          </div>
+        </div>
       ) : (
         <div className="w-[80%] mx-auto overflow-y-scroll scrollbar-hide">
           <div className="flex py-5">
@@ -160,10 +128,8 @@ const Input = () => {
           </div>
         </div>
       </div>
-
-      <Toaster />
     </div>
   );
 };
 
-export default Input;
+export default GeminiSection;

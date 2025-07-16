@@ -3,7 +3,7 @@ import GeminiSection from "./../components/GeminiSection";
 
 const Gemini = () => {
   return (
-    <div className="flex">
+    <div className="flex fixed inset-0">
       <SideBar />
       <GeminiSection/>
     </div>
