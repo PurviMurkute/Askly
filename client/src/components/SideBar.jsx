@@ -1,30 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
-import { googleLogout } from "@react-oauth/google";
-import {
-  Menu,
-  Plus,
-  MessageSquareMore,
-  BadgeQuestionMark,
-  Settings,
-  Power,
-  Trash2,
-} from "lucide-react";
-import { useNavigate } from "react-router";
+import { Menu, X, Plus, MessageSquareMore, Trash2 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { context } from "../context/Context";
+import SignIn from "./SignIn";
 
 const SideBar = () => {
-  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+  const [isSideBarOpen, setIsSideBarOpen] = useState(true);
   const [queriesHistory, setQueriesHistory] = useState([]);
-  const toggleSideBar = () => {
-    setIsSideBarOpen(!isSideBarOpen);
-  };
+  const [searchText, setSearchText] = useState("");
+  const [searchedQuery, setSearchedQuery] = useState([]);
 
-  const {
-      setUser,
-      handleQuestionClick,
-    } = useContext(context);
+  const { setUser, handleQuestionClick } = useContext(context);
 
   const getHistory = async (user) => {
     if (!user) return;
@@ -38,6 +25,17 @@ const SideBar = () => {
       toast.error(e.message);
     }
   };
+
+  useEffect(() => {
+    const searchedQueries = queriesHistory.filter((query) => {
+      if (query.query.toLowerCase().includes(searchText.toLowerCase())) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    setSearchedQuery(searchedQueries);
+  }, [searchText, queriesHistory]);
 
   const deleteQuery = async (_id) => {
     const response = await axios.delete(
@@ -63,84 +61,110 @@ const SideBar = () => {
     }
   }, []);
 
-  const navigate = useNavigate();
-
-  const handleSignout = () => {
-    googleLogout();
-    localStorage.removeItem("CurrentUser");
-    toast.success("Signout successfull");
-    setTimeout(() => {
-      navigate("/");
-    }, 2000);
-  };
-
   return (
-    <div
-      className={`bg-gray-600 text-white flex flex-col min-h-screen justify-between px-1 md:px-3 py-1 ${
-        isSideBarOpen ? "w-[190px] md:w-[230px]" : "w-15"
-      } transition-width duration-300`}
-    >
-      <div className="flex flex-col space-y-5">
-        <button onClick={toggleSideBar} className="cursor-pointer mb-8">
-          <Menu color="#fff" />
-        </button>
-        <button className="flex justify-center items-center p-2 bg-gray-400 text-white rounded-full hover:bg-gray-500 transition-colors duration-200">
+    <>
+      <Menu
+        color="#fff"
+        className="fixed top-1 left-1 bg-gray-400 block md:hidden"
+        onClick={() => {
+          setIsSideBarOpen(true);
+        }}
+      />
+      <div className="w-1/5 bg-[#262626] fixed top-0 left-0 h-full flex flex-col">
+        <X
+          className="block md:hidden"
+          onClick={() => {
+            setIsSideBarOpen(false);
+          }}
+        />
+        <h3 className="text-2xl text-orange-400/70 font-bold p-3">Askly</h3>
+        <hr className="text-white" />
+        <button className="flex justify-center items-center w-[200px] p-3 my-5 mx-3 bg-gray-400 text-white rounded-full hover:bg-gray-500 transition-colors duration-200">
           <Plus />
-          {isSideBarOpen ? <span className="text-sm md:text-md">New Chat</span> : null}
+          <span className="text-sm md:text-md">New Chat</span>
         </button>
-        <div>
-          {isSideBarOpen ? <h3 className="mb-3">Recents</h3> : null}
+        <div className="flex justify-center items-center">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+            className="text-white w-full me-10 px-3 py-2 focus:outline-none"
+          />
+        </div>
+        <hr className="my-2 border-white/30 w-full" />
+        <div className="mx-3 text-white">
+          <h3 className="mb-3">Recents</h3>
           <div className="flex cursor-pointer h-[350px] md:h-[400px] overflow-y-scroll scrollbar-hide relative">
-            {isSideBarOpen ? (
-              <div className="text-sm w-[100%]">
-                {queriesHistory.map((item, i) => (
+            <div className="text-sm w-[75%]">
+              {searchText ? (
+                searchedQuery.length === 0 ? (
+                  <div className="text-gray-400 px-3 py-2">
+                    No results found
+                  </div>
+                ) : (
+                  searchedQuery.map((item, i) => (
+                    <div
+                      key={i}
+                      className="relative group hover:bg-gray-500 px-3 py-1 rounded-lg flex justify-between"
+                    >
+                      <div className="flex justify-start">
+                        <MessageSquareMore
+                          color="#f2f2f2"
+                          className="w-3 me-1 inline"
+                        />
+                        <span
+                          onClick={() => handleQuestionClick(item.query)}
+                          className="cursor-pointer"
+                        >
+                          {item.query.slice(0, 20)}...
+                        </span>
+                      </div>
+                      <Trash2
+                        color="#fff"
+                        className="inline w-[15px] absolute right-2 top-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+                        onClick={() => deleteQuery(item._id)}
+                      />
+                    </div>
+                  ))
+                )
+              ) : (
+                queriesHistory.map((item, i) => (
                   <div
                     key={i}
                     className="relative group hover:bg-gray-500 px-3 py-1 rounded-lg flex justify-between"
                   >
                     <div className="flex justify-start">
-                      <span>
-                        <MessageSquareMore
-                          color="#f2f2f2"
-                          className="w-3 me-1 inline"
-                        />
-                      </span>
-
-                      <span className="" onClick={()=>{handleQuestionClick(item.query)}}>
-                        {item.query.slice(0, 8)}...
+                      <MessageSquareMore
+                        color="#f2f2f2"
+                        className="w-3 me-1 inline"
+                      />
+                      <span
+                        onClick={() => handleQuestionClick(item.query)}
+                        className="cursor-pointer"
+                      >
+                        {item.query.slice(0, 20)}...
                       </span>
                     </div>
                     <Trash2
                       color="#fff"
-                      className="inline w-[15px] absolute right-1 top-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+                      className="inline w-[15px] absolute right-2 top-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
                       onClick={() => deleteQuery(item._id)}
                     />
                   </div>
-                ))}
-              </div>
-            ) : null}
+                ))
+              )}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex flex-col space-y-3 mb-3">
-        <button className="flex items-center space-x-1 md:space-x-2 cursor-pointer">
-          <BadgeQuestionMark color="#fff" className="w-6 h-6" />
-          {isSideBarOpen ? <span className="text-md">Help</span> : null}
-        </button>
-        <button className="flex items-center space-x-1 md:space-x-2 cursor-pointer">
-          <Settings color="#fff" className="w-6 h-6"/>
-          {isSideBarOpen ? <span className="text-md">Settings</span> : null}
-        </button>
-        <button
-          className="flex items-center space-x-1 md:space-x-2 cursor-pointer"
-          onClick={handleSignout}
-        >
-          <Power color="#fff" className="w-6 h-6"/>
-          {isSideBarOpen ? <span className="text-md">Sign Out</span> : null}
-        </button>
+        <div className="fixed bottom-3 left-3">
+          <SignIn />
+        </div>
       </div>
       <Toaster />
-    </div>
+    </>
   );
 };
 

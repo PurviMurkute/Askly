@@ -92,7 +92,7 @@ const ContextProvider = ({ children }) => {
       setTimeout(() => {
         setGeminiResponse((prev) => prev + words[index] + " ");
         delayPara(words, index + 1);
-      }, 50);
+      }, 20);
     }
   };
 
