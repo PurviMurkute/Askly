@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -13,13 +12,9 @@ const ContextProvider = ({ children }) => {
   const [loader, setLoader] = useState(false);
   const [recentQuery, setRecentQuery] = useState("");
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     const currentUser = localStorage.getItem("CurrentUser");
-    if (!currentUser) {
-      setTimeout(() => navigate("/"), 2000);
-    } else {
+    if (currentUser) {
       setUser(JSON.parse(currentUser));
     }
   }, []);

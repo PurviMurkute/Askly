@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { Image, SendHorizontal } from "lucide-react";
+import { Image, SendHorizontal, User } from "lucide-react";
 import QuestionCard from "./QuestionCard";
 import { Sparkles } from "lucide-react";
 import { context } from "../context/Context";
 import SideBar from "./SideBar";
 import FeatureCard from "./FeatureCard";
+import toast, { Toaster } from "react-hot-toast";
 
 const GeminiSection = () => {
   const {
@@ -26,12 +27,14 @@ const GeminiSection = () => {
       <SideBar />
       <div className="flex flex-col justify-between w-full bg-[#404040] inset-0 relative md:ms-[15%]">
         <div className="md:h-20 md:w-full flex justify-end px-2 md:px-5 py-2">
-          {user?.picture && (
+          {user ? (
             <img
               src={user.picture}
               alt="User-profile"
-              className="rounded-full w-9 h-9 md:w-12 md:h-12 object-cover"
+              className="rounded-full w-9 h-9 md:w-11 md:h-11 object-cover"
             />
+          ) : (
+            <User className="rounded-full w-9 h-9 md:w-11 md:h-11 object-cover bg-[#262626] text-white p-2" />
           )}
         </div>
 
@@ -58,32 +61,42 @@ const GeminiSection = () => {
               <QuestionCard
                 question="What is the best way to learn React?"
                 onClick={() => {
-                  handleQuestionClick("What is the best way to learn React?");
+                  user
+                    ? handleQuestionClick(
+                        "What is the best way to learn React?"
+                      )
+                    : toast.error("Login first to Search");
                 }}
                 hidden="true"
               />
               <QuestionCard
                 question="Suggest beautiful places to visit in india."
                 onClick={() => {
-                  handleQuestionClick(
-                    "Suggest beautiful places to visit in india."
-                  );
+                  user
+                    ? handleQuestionClick(
+                        "What is the best way to learn React?"
+                      )
+                    : toast.error("Login first to Search");
                 }}
               />
               <QuestionCard
                 question="What are the latest trends in web development?"
                 onClick={() => {
-                  handleQuestionClick(
-                    "What are the latest trends in web development?"
-                  );
+                  user
+                    ? handleQuestionClick(
+                        "What is the best way to learn React?"
+                      )
+                    : toast.error("Login first to Search");
                 }}
               />
               <QuestionCard
                 question="List down top 5 skills that engineering students should learn in 2025."
                 onClick={() => {
-                  handleQuestionClick(
-                    "List down top 5 skills that engineering students should learn in 2025."
-                  );
+                  user
+                    ? handleQuestionClick(
+                        "What is the best way to learn React?"
+                      )
+                    : toast.error("Login first to Search");
                 }}
                 hidden="true"
               />
@@ -92,11 +105,15 @@ const GeminiSection = () => {
         ) : (
           <div className="w-[80%] mx-auto overflow-y-scroll scrollbar-hide">
             <div className="flex py-5">
-              <img
-                src={user.picture}
-                alt="User-profile"
-                className="rounded-full w-8 h-8 object-cover me-3"
-              />
+              {user ? (
+                <img
+                  src={user.picture}
+                  alt="User-profile"
+                  className="rounded-full w-8 h-8 object-cover me-3"
+                />
+              ) : (
+                <User className="rounded-full w-8 h-8 object-cover bg-[#262626] text-white p-2" />
+              )}
               <p className="text-white font-medium">{recentQuery}</p>
             </div>
             <div className="h-[470px] flex">
@@ -150,6 +167,7 @@ const GeminiSection = () => {
           </div>
         </div>
       </div>
+      <Toaster/>
     </>
   );
 };
