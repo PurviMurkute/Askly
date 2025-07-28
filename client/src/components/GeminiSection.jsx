@@ -25,7 +25,7 @@ const GeminiSection = () => {
   return (
     <>
       <SideBar />
-      <div className="flex flex-col justify-between w-full bg-[#404040] inset-0 relative md:ms-[15%]">
+      <div className="flex flex-col justify-between w-full bg-[#404040] inset-0 relative lg:ms-[15%]">
         <div className="md:h-20 md:w-full flex justify-end px-2 md:px-5 py-2">
           {user ? (
             <img
@@ -39,8 +39,8 @@ const GeminiSection = () => {
         </div>
 
         {!showResult ? (
-          <div className="px-5 md:w-[100%] md:px-10">
-            <div className="pb-10 flex flex-col justify-center items-center">
+          <div className="px-1 md:w-[100%] md:px-10">
+            <div className="pb-10 flex flex-col justify-center items-center px-7 text-center">
               <h1 className="text-xl md:text-2xl font-bold text-gray-300/80">
                 Your Personal AI Assistant - Fast, Friendly, and Always
                 Available.
@@ -48,7 +48,7 @@ const GeminiSection = () => {
               <h2 className="text-xl md:text-3xl font-bold text-gray-300/50">
                 How can i help you today?
               </h2>
-              <div className="flex flex-wrap justify-evenly gap-2 my-5">
+              <div className="hidden lg:flex flex-wrap justify-evenly gap-2 my-5">
                 <FeatureCard icon="💡" text="Generate Ideas" />
                 <FeatureCard icon="✍️" text="Write Articles" />
                 <FeatureCard icon="💬" text="Chat like a Friend" />
@@ -57,7 +57,7 @@ const GeminiSection = () => {
                 <FeatureCard icon="🧠" text="Summarize Text" />
               </div>
             </div>
-            <div className="flex flex-col md:flex-row justify-center items-center space-x-2">
+            <div className="flex flex-row flex-wrap justify-center items-center space-x-2">
               <QuestionCard
                 question="What is the best way to learn React?"
                 onClick={() => {
@@ -67,7 +67,6 @@ const GeminiSection = () => {
                       )
                     : toast.error("Login first to Search");
                 }}
-                hidden="true"
               />
               <QuestionCard
                 question="Suggest beautiful places to visit in india."
@@ -98,7 +97,6 @@ const GeminiSection = () => {
                       )
                     : toast.error("Login first to Search");
                 }}
-                hidden="true"
               />
             </div>
           </div>

@@ -19,6 +19,7 @@ const ContextProvider = ({ children }) => {
     }
   }, []);
 
+  //regular expressions (regex)
   const formatText = (rawText) => {
     if (!rawText) return "";
 
@@ -46,19 +47,19 @@ const ContextProvider = ({ children }) => {
     );
     formatted = formatted.replace(
       /^### (.*)$/gm,
-      "<h3 class='text-2xl font-bold my-2'>$1</h3>"
+      "<h3 class='text-xl font-bold my-2'>$1</h3><br/>"
     );
     formatted = formatted.replace(
       /^## (.*)$/gm,
-      "<h2 class='text-3xl font-bold my-2'>$1</h2>"
+      "<h2 class='text-2xl font-bold my-2'>$1</h2>"
     );
     formatted = formatted.replace(
       /^# (.*)$/gm,
-      "<h1 class='text-4xl font-bold my-2'>$1</h1>"
+      "<h1 class='text-2xl font-bold my-2'>$1</h1>"
     );
 
     // 3. Bold
-    formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong><br/>");
 
     // 4. Italic
     formatted = formatted.replace(/\*(.*?)\*/g, "<em>$1</em>");

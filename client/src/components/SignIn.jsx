@@ -1,24 +1,18 @@
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { ChevronDown, BadgeQuestionMark, Settings, Power } from "lucide-react";
+import { context } from "../context/Context";
 
 const SignIn = () => {
-  const [user, setUser] = useState(null);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+
+  const {user, setUser} = useContext(context)
 
   const toggleDropDown = () => {
     setIsDropDownOpen(!isDropDownOpen);
   };
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("CurrentUser");
-
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
 
   const handleSignout = () => {
     googleLogout();

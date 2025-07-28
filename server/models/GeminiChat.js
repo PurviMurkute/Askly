@@ -10,6 +10,9 @@ const userChats = new Schema(
       type: String,
       required: true
     },
+    response: {
+      type: String
+    }
   },
   {
     timestamps: true,
