@@ -6,8 +6,16 @@ import { context } from "../context/Context";
 import SideBar from "./SideBar";
 import FeatureCard from "./FeatureCard";
 import toast, { Toaster } from "react-hot-toast";
+import { useState } from "react";
+import SignIn from "./SignIn";
 
 const GeminiSection = () => {
+  const [loginDropdownOpen, setLoginDropdownOpen] = useState(false);
+
+  const toggleDropDown = () => {
+    setLoginDropdownOpen(!loginDropdownOpen);
+  }
+
   const {
     user,
     input,
@@ -34,7 +42,13 @@ const GeminiSection = () => {
               className="rounded-full w-9 h-9 md:w-11 md:h-11 object-cover"
             />
           ) : (
-            <User className="rounded-full w-9 h-9 md:w-11 md:h-11 object-cover bg-[#262626] text-white p-2" />
+            <>
+              <User className="rounded-full w-9 h-9 md:w-11 md:h-11 object-cover bg-[#262626] text-white p-2 cursor-pointer" onClick={toggleDropDown}/>
+              {loginDropdownOpen && 
+              <div className="fixed top-12 md:top-15 right-2 md:right-4">
+                <SignIn/>
+                </div>}
+            </>
           )}
         </div>
 
