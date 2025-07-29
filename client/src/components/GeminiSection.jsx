@@ -143,9 +143,13 @@ const GeminiSection = () => {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  setShowResult(true);
-                  setRecentQuery(input);
-                  generateResponse();
+                  if (user) {
+                    setShowResult(true);
+                    setRecentQuery(input);
+                    generateResponse();
+                  } else {
+                    toast.error("Please Signin First");
+                  }
                 }
               }}
               className="w-full text-white focus:outline-none"
@@ -155,9 +159,13 @@ const GeminiSection = () => {
               <SendHorizontal
                 color="#fff"
                 onClick={() => {
-                  setShowResult(true);
-                  setRecentQuery(input);
-                  generateResponse();
+                  if (user) {
+                    setShowResult(true);
+                    setRecentQuery(input);
+                    generateResponse();
+                  } else {
+                    toast.error("Please Signin First");
+                  }
                 }}
                 className="cursor-pointer"
               />
@@ -165,7 +173,7 @@ const GeminiSection = () => {
           </div>
         </div>
       </div>
-      <Toaster/>
+      <Toaster />
     </>
   );
 };
