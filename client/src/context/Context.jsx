@@ -47,7 +47,7 @@ const ContextProvider = ({ children }) => {
     );
     formatted = formatted.replace(
       /^### (.*)$/gm,
-      "<h3 class='text-xl font-bold my-2'>$1</h3><br/>"
+      "<h3 class='text-xl font-bold my-2'>$1</h3>"
     );
     formatted = formatted.replace(
       /^## (.*)$/gm,
@@ -59,7 +59,7 @@ const ContextProvider = ({ children }) => {
     );
 
     // 3. Bold
-    formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong><br/>");
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
 
     // 4. Italic
     formatted = formatted.replace(/\*(.*?)\*/g, "<em>$1</em>");
@@ -96,6 +96,15 @@ const ContextProvider = ({ children }) => {
     setInput(queryText);
     setRecentQuery(queryText);
     generateResponse(queryText);
+    setShowResult(true);
+  };
+
+  const handlePastQueClick = (item) => {
+    if (!item || !item.response) return;
+
+    setInput(item.query);
+    setRecentQuery(item.query);
+    setGeminiResponse(formatText(item.response));
     setShowResult(true);
   };
 
@@ -147,6 +156,7 @@ const ContextProvider = ({ children }) => {
     delayPara,
     handleQuestionClick,
     generateResponse,
+    handlePastQueClick,
   };
 
   return (

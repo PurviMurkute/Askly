@@ -11,7 +11,7 @@ const SideBar = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedQuery, setSearchedQuery] = useState([]);
 
-  const { user, handleQuestionClick } = useContext(context);
+  const { user, handlePastQueClick } = useContext(context);
 
   const toggleSidebar = () => {
     setIsSideBarOpen(!isSideBarOpen);
@@ -66,7 +66,7 @@ const SideBar = () => {
         onClick={toggleSidebar}
       />
       <div
-        className={`w-[85%] lg:w-1/5 bg-[#262626] fixed top-0 left-0 h-full flex flex-col z-10 lg:z-0 ${
+        className={`w-[85%] md:w-[50%] lg:w-1/5 bg-[#262626] fixed top-0 left-0 h-full flex flex-col z-10 lg:z-0 ${
           isSideBarOpen ? "block" : "hidden lg:block"
         }`}
       >
@@ -117,7 +117,7 @@ const SideBar = () => {
                           className="w-3 me-1 inline"
                         />
                         <span
-                          onClick={() => handleQuestionClick(item.query)}
+                          onClick={() => {handlePastQueClick(item), setIsSideBarOpen(false)}}
                           className="cursor-pointer"
                         >
                           {item.query.slice(0, 20)}...
@@ -143,7 +143,7 @@ const SideBar = () => {
                         className="w-3 me-1 inline"
                       />
                       <span
-                        onClick={() => handleQuestionClick(item.query)}
+                        onClick={() => {handlePastQueClick(item), setIsSideBarOpen(false)}}
                         className="cursor-pointer"
                       >
                         {item.query.slice(0, 20)}...
