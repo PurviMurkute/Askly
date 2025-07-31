@@ -60,11 +60,14 @@ const SideBar = () => {
 
   return (
     <>
+    <div className="flex justify-center items-center gap-2 fixed top-3 left-2  z-10 lg:hidden">
       <Menu
         color="#fff"
-        className="fixed top-3 left-2 w-[30px] z-10 cursor-pointer lg:hidden"
+        className="w-[30px] cursor-pointer"
         onClick={toggleSidebar}
       />
+      <h3 className="text-2xl text-orange-400/70 font-bold">Askly</h3>
+      </div>
       <div
         className={`w-[85%] md:w-[50%] lg:w-1/5 bg-[#262626] fixed top-0 left-0 h-full flex flex-col z-10 lg:z-0 ${
           isSideBarOpen ? "block" : "hidden lg:block"
