@@ -4,7 +4,7 @@
 
 ---
 
-![App Screenshot](./client/src/assets/appimg.png);
+![App Screenshot](./client/public/project2.png);
 
 ###  Tech Stack
 - **Frontend**: React.js, Tailwind CSS  
@@ -20,5 +20,3 @@
 - Google login for authentication  
 - Chat history per user  
 - Loading indicators for better UX
-
----
