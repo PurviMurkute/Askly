@@ -87,7 +87,7 @@ const GeminiSection = () => {
                 onClick={() => {
                   user
                     ? handleQuestionClick(
-                        "What is the best way to learn React?"
+                        "Suggest beautiful places to visit in india."
                       )
                     : toast.error("Login first to Search");
                 }}
@@ -97,7 +97,7 @@ const GeminiSection = () => {
                 onClick={() => {
                   user
                     ? handleQuestionClick(
-                        "What is the best way to learn React?"
+                        "What are the latest trends in web development?"
                       )
                     : toast.error("Login first to Search");
                 }}
@@ -107,7 +107,7 @@ const GeminiSection = () => {
                 onClick={() => {
                   user
                     ? handleQuestionClick(
-                        "What is the best way to learn React?"
+                        "List down top 5 skills that engineering students should learn in 2025."
                       )
                     : toast.error("Login first to Search");
                 }}
